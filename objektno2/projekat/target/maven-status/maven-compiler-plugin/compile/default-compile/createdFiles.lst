@@ -1,0 +1,12 @@
+org\acme\ExampleResource.class
+org\acme\MyRemoteService.class
+model\Autor.class
+model\Clan.class
+model\Knjiga.class
+model\Main.class
+model\Izdavac.class
+org\acme\MyEntity.class
+model\Zaposlen.class
+model\Iznajmljivanje.class
+model\Kategorija.class
+org\acme\MyRemoteService$Extension.class
