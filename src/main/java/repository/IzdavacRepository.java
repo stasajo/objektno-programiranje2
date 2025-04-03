@@ -7,22 +7,27 @@ import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
-import model.Clan;
+import model.Izdavac;
 
 
 @Dependent
-public class ClanRepository {
-
+public class IzdavacRepository {
+	
 	@Inject
 	EntityManager em;
 	
+	
 	@Transactional
-	public Clan addClan(Clan c) {
-		return em.merge(c);
+	public Izdavac addIzdavac(Izdavac i) {
+		return em.merge(i);
 	}
 	
 	@Transactional
-	public List<Clan> getAll(){
-		return em.createQuery("SELECT c FROM Clan c", Clan.class).getResultList();
+	public List<Izdavac> getAll(){
+		return em.createQuery("SELECT i FROM Izdavac i", Izdavac.class).getResultList();
 	}
+	
+	
+	
+
 }
