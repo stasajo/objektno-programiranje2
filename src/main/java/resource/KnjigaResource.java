@@ -2,6 +2,7 @@ package resource;
 
 import java.util.List;
 
+import exception.KnjigaException;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -9,9 +10,11 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import model.Knjiga;
+import model.client.KnjigaKategorija;
 import repository.KnjigaRepository;
 
 
@@ -42,5 +45,30 @@ public class KnjigaResource {
 		return Response.ok().entity(knjige).build();
 	}
 	
+	
+	
+	@GET 
+	@Path("getKnjigeByName")
+	public Response getKnjigeByName(@QueryParam(value = "name") String name) {
+		
+		List<Knjiga> knjige;
+		
+		try {
+			knjige = knjigaRepository.getKnjigeByName(name);
+		} catch (KnjigaException e) {
+			// TODO: handle exception
+			return Response.ok().entity(e.getMessage()).build();
+		}
+		return Response.ok().entity(knjige).build();
+	}
+	
+	
+	@POST
+	@Path("createKnjigaKategorija")
+	public Response addKnjigaKategorija(KnjigaKategorija kk) {
+		KnjigaKategorija knjigakategorija = knjigaRepository.createKnjigaKategorija(kk);
+		
+		return Response.ok().entity(knjigakategorija).build();
+	}
 	
 }

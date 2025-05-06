@@ -13,21 +13,32 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 
 
 @Entity
-@NamedQuery(name = Knjiga.GET_ALL_KNJIGE, query = "SELECT k FROM Knjiga k")
+@NamedQueries({
+	@NamedQuery(name = Knjiga.GET_ALL_KNJIGE, query = "SELECT k FROM Knjiga k"),
+	@NamedQuery(name = Knjiga.GET_KNJIGE_BY_NAME, query = "Select k from Knjiga k where k.naziv = :name")
+	
+})
+
+
+
 public class Knjiga {
 	
+	
 	public static final String GET_ALL_KNJIGE = "Knjiga.getAllKnjige";
+	public static final String GET_KNJIGE_BY_NAME = "Knjiga.getKnjigeByName"; 
+	
 	
 	@Id
 	@SequenceGenerator(name="knjigaSeq", sequenceName="knjiga_id_seq", allocationSize = 1, initialValue = 1)
 	@GeneratedValue(generator = "knjigaSeq")
-	long id;
+	private long id;
 	String naziv;
 	int godina_izdanja;
 	

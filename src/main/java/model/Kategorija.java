@@ -14,7 +14,8 @@ public class Kategorija {
 	@Id
 	@SequenceGenerator(name="kategorijaSeq", sequenceName="kategorija_id_seq", allocationSize = 1, initialValue = 1)
 	@GeneratedValue(generator = "kategorijaSeq")
-    long id;
+    private long id;
+	
     String naziv;
   
 	
