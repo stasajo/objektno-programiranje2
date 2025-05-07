@@ -42,7 +42,8 @@ public class HolidayRepositor {
 
 		        boolean exists = !em.createQuery(
 		                "SELECT h FROM Holiday h WHERE h.date = :date AND h.countryCode = :countryCode").setParameter("date", holidayDate).setParameter("countryCode", publicHolidayResponse.getCountryCode()).getResultList().isEmpty();
-
+		        	
+		        		
 		        if (exists) {
 		            continue;
 		        }
