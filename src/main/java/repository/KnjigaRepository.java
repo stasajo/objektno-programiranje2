@@ -57,5 +57,9 @@ public class KnjigaRepository {
 	public KnjigaKategorija createKnjigaKategorija(KnjigaKategorija kk) {
 		return em.merge(kk);
 	}
+	
+	public Knjiga findById(Long id) {
+		return em.find(Knjiga.class, id);
+	}
 
 }

@@ -2,6 +2,7 @@ package model;
 
 
 
+import java.beans.Transient;
 import java.util.Set;
 
 import com.fasterxml.jackson.core.sym.Name;
@@ -46,6 +47,13 @@ public class Knjiga {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "izdavac_id")
 	Set<Izdavac> izdavaci;
+	
+	private String filePath;
+	
+	@jakarta.persistence.Transient
+	private byte[] fileDate;
+	
+
 	
 	
 	
@@ -118,6 +126,30 @@ public class Knjiga {
 	
 	
 	
+
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+
+
+	public byte[] getFileDate() {
+		return fileDate;
+	}
+
+
+
+	public void setFileDate(byte[] fileDate) {
+		this.fileDate = fileDate;
+	}
+
 
 
 	@Override

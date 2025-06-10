@@ -1,6 +1,11 @@
 package resource;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
+
+import org.jboss.resteasy.reactive.MultipartForm;
 
 import exception.KnjigaException;
 import jakarta.inject.Inject;
@@ -13,6 +18,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import model.FileUploadForm;
 import model.Knjiga;
 import model.client.KnjigaKategorija;
 import repository.KnjigaRepository;
@@ -70,5 +76,71 @@ public class KnjigaResource {
 		
 		return Response.ok().entity(knjigakategorija).build();
 	}
+	
+	
+	
+	@POST
+	@Path("/uploadFile")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	
+	public Response uploadFile(@QueryParam("id") Long id, @MultipartForm FileUploadForm form) {
+		
+		Knjiga knjiga = knjigaRepository.findById(id);
+		if(knjiga == null) {
+			return Response.status(Response.Status.NOT_FOUND).entity("Knjiga nije pronadjena.").build();
+		}
+		
+		
+		
+		String upload = "uploads";
+		File dir = new File(upload);
+		
+		if(!dir.exists()) {
+			dir.mkdirs();
+		}
+		
+		
+		File file = new File(dir, form.fileName);
+		try (FileOutputStream fos = new FileOutputStream(file)) {
+            fos.write(form.file);
+        } catch (IOException e) {
+            return Response.serverError().entity("Greška prilikom snimanja fajla").build();
+        }
+		
+		
+		
+		
+		knjiga.setFilePath(file.getAbsolutePath());
+		
+		knjigaRepository.addKnjiga(knjiga);
+		return Response.ok(knjiga).build();
+		
+	}
+	
+	
+	@GET
+	@Path("/getById")
+	public Response getKnjigaById(@QueryParam("id") Long id) {
+		Knjiga knjiga = knjigaRepository.findById(id);
+		if(knjiga == null) {
+			return Response.status(Response.Status.NOT_FOUND).build();
+		}
+		
+		
+		if(knjiga.getFilePath() != null) {
+			 try {
+	                byte[] fileContent = java.nio.file.Files.readAllBytes(java.nio.file.Paths.get(knjiga.getFilePath()));
+	                knjiga.setFileDate(fileContent);
+	            } catch (IOException e) {
+	                return Response.serverError().entity("Greška pri čitanju fajla").build();
+	            }
+		}
+		
+		return Response.ok(knjiga).build();
+	}
+	
+	
+	
+	
 	
 }
